@@ -1,0 +1,307 @@
+
+:root {
+  --shade-dark: #3b3b3b;
+  --shade-medium-dark: #5d5d5d;
+  --shade-medium: #c0c0c0;
+  --shade-medium-light: #d8d8d8;
+  --shade-light: #ffffff;
+
+  /* Course layout */
+  --course-max-width: 50%;
+  --course-padding: 8px;
+  --cell-gap: 0px;
+  --course-border-width: 1px;
+  --course-border-radius: 6px;
+
+  /* Course frame */
+  --course-frame-color: var(--shade-medium-dark);
+  --course-border-color: var(--shade-dark);
+  --grid-line-color: var(--shade-light);
+
+  /* Terrain colors */
+  --rough-color: var(--shade-light);
+  --fairway-color: var(--shade-medium-light);
+  --water-color: var(--shade-medium-dark);
+  --sand-base-color: var(--shade-light);
+  --sand-line-color: var(--shade-medium);
+  --tree-background-color: var(--shade-light);
+
+  --terrain-edge-radius: 40%;
+
+  /* Sand pattern */
+  --sand-pattern-size: 5px;
+
+  /* Pine tree */
+  --pine-color: var(--shade-dark);
+
+  /* Deciduous tree */
+  --deciduous-color: var(--shade-dark);
+  --deciduous-shadow-color: var(--shade-dark);
+  --deciduous-trunk-color: var(--shade-dark);
+
+  /* Tee marker */
+  --tee-marker-size: 65%;
+  --tee-marker-color: var(--shade-light);
+  --tee-marker-border-color: #303030;
+  --tee-marker-border-width: 3px;
+
+  /* Hole marker */
+  --hole-marker-size: 65%;
+  --hole-marker-color: var(--shade-medium-dark);
+  --hole-marker-border-color: var(--shade-light);
+  --hole-marker-border-width: 1px;
+
+  /* Slope indicators */
+  --slope-triangle-color: var(--shade-medium-dark);
+  --slope-size: 65%;
+
+  --cell-dot-size: 15%;
+  --cell-dot-color: var(--shade-medium-dark);
+  --cell-dot-color-fairway: var(--shade-medium-dark);
+  --cell-dot-color-rough: #a0a0a0;
+  --cell-dot-color-sand: #505050;
+  --cell-dot-color-water: var(--shade-light);
+  --cell-dot-opacity: 1;
+}
+
+/* Course container */
+.golf-course-wrapper {
+  width: 100%;
+  max-width: var(--course-max-width);
+  margin-inline: auto;
+  padding: var(--course-padding);
+  box-sizing: border-box;
+
+  background: var(--course-frame-color);
+  border: var(--course-border-width) solid var(--course-border-color);
+  border-radius: var(--course-border-radius);
+}
+
+/* 16 columns × 26 rows */
+.golf-course-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  grid-template-rows: repeat(26, minmax(0, 1fr));
+  gap: var(--cell-gap);
+
+  width: 100%;
+  aspect-ratio: 16 / 26;
+
+  background: var(--grid-line-color);
+  border: var(--course-border-width) solid var(--grid-line-color);
+  box-sizing: border-box;
+}
+
+/* Base cell */
+.golf-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Round exposed edges */
+.golf-cell.corner-top-left {
+  border-top-left-radius: var(--terrain-edge-radius);
+}
+
+.golf-cell.corner-top-right {
+  border-top-right-radius: var(--terrain-edge-radius);
+}
+
+.golf-cell.corner-bottom-left {
+  border-bottom-left-radius: var(--terrain-edge-radius);
+}
+
+.golf-cell.corner-bottom-right {
+  border-bottom-right-radius: var(--terrain-edge-radius);
+}
+
+/* Terrain */
+.terrain-rough {
+  background: var(--rough-color);
+}
+
+.terrain-fairway {
+  background: var(--fairway-color);
+}
+
+.terrain-sand {
+  background: var(--sand-base-color);
+}
+
+.sand-pattern-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sand-pattern {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.terrain-water {
+  background: var(--water-color);
+}
+
+.terrain-tree_p {
+  background: var(--tree-background-color);
+}
+.terrain-tree_d {
+  background: var(--tree-background-color);
+  padding: 1px;
+}
+
+.terrain-tee,
+.terrain-hole,
+.terrain-slope_u,
+.terrain-slope_d,
+.terrain-slope_l,
+.terrain-slope_r {
+  background: var(--fairway-color);
+}
+
+/* Pine tree */
+.tree-shape {
+  display: block;
+}
+
+/* .tree-shape.pine {
+  background: var(--pine-color);
+  width: 85%;
+  height: 85%;
+  clip-path: polygon(
+    50% 0%,
+    90% 38%,
+    73% 38%,
+    100% 68%,
+    76% 68%,
+    100% 92%,
+    0% 92%,
+    24% 68%,
+    0% 68%,
+    27% 38%,
+    10% 38%
+  );
+} */
+
+/* Deciduous tree */
+.golf-cell.terrain-tree_d {
+  justify-content: flex-start;
+  padding: 1px;
+  width: 100%;
+  height: 100%;
+}
+.tree-shape.deciduous {
+  /* align-self: flex-start; */
+  justify-self: flex-start;
+  /* flex-grow: 2; */
+  width: 100%;
+  height: 65%;
+  border-radius: 16px;
+  background: var(--deciduous-color);
+  /* box-shadow: inset -2px -2px 0 var(--deciduous-shadow-color); */
+}
+
+/* Center vertical trunk */
+.trunk-shape.deciduous {
+  /* flex-grow: 1; */
+  width: 22%;
+  height: 25%;
+  /* left: 50%; */
+  /* bottom: 1px; */
+  /* transform: translateX(-50%); */
+  background: var(--deciduous-trunk-color);
+}
+
+/* Tee marker */
+.tee-marker {
+  width: var(--tee-marker-size);
+  height: var(--tee-marker-size);
+  box-sizing: border-box;
+
+  border: var(--tee-marker-border-width) solid var(--tee-marker-border-color);
+  border-radius: 50%;
+  background: var(--tee-marker-color);
+}
+
+/* Hole marker */
+.hole-marker {
+  width: var(--hole-marker-size);
+  height: var(--hole-marker-size);
+  box-sizing: border-box;
+
+  border-radius: 50%;
+  background: var(--hole-marker-color);
+  /* border: var(--hole-marker-border-width) solid var(--hole-marker-border-color); */
+  /* box-shadow: 0 0 0 1px var(--hole-marker-color); */
+}
+
+/* Slope indicators */
+.slope-triangle {
+  display: block;
+  width: 40%;
+  height: 40%;
+  background: var(--slope-triangle-color);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.slope-triangle.slope_u {
+  clip-path: polygon(50% 7%, 0% 97%, 100% 97%);
+}
+
+.slope-triangle.slope_d {
+  clip-path: polygon(0% 7%, 100% 7%, 50% 93%);
+}
+
+.slope-triangle.slope_l {
+  clip-path: polygon(7% 50%, 93% 0%, 93% 100%);
+}
+
+.slope-triangle.slope_r {
+  clip-path: polygon(7% 0%, 93% 50%, 7% 100%);
+}
+
+.golf-cell.grid-dot::after {
+  content: "";
+  position: absolute;
+  width: var(--cell-dot-size);
+  height: var(--cell-dot-size);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--cell-dot-color);
+  opacity: var(--cell-dot-opacity);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.golf-cell.grid-dot.terrain-rough::after {
+  background: var(--cell-dot-color-rough);
+}
+.golf-cell.grid-dot.terrain-fairway::after {
+  background: var(--cell-dot-color-fairway);
+}
+.golf-cell.grid-dot.terrain-water::after {
+  background: var(--cell-dot-color-water);
+}
+.golf-cell.grid-dot.terrain-sand::after {
+  background: var(--cell-dot-color-sand);
+}

@@ -1,0 +1,387 @@
+.golf-game {
+  --ink: #252b2a;
+  --muted: #737b76;
+  --line: #d7dcd7;
+  --paper: #f3f5ef;
+  --green: #2e5b47;
+  min-height: 100vh;
+  padding: 10px clamp(16px, 4vw, 56px) 10px;
+  box-sizing: border-box;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image: radial-gradient(#8b998c 0.55px, transparent 0.55px);
+  background-size: 15px 15px;
+  text-align: left;
+}
+
+.game-header,
+.game-layout {
+  width: min(100%, 1100px);
+  margin-inline: auto;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow,
+.course-scoreline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+}
+
+.golf-game h1 {
+  margin: 3px 0 0;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.new-course-button,
+.next-hole-button {
+  min-height: 34px;
+  padding: 0 15px;
+  border: 1px solid var(--green);
+  border-radius: 3px;
+  background: var(--green);
+  color: white;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  padding-top: 8px;
+}
+
+.course-section {
+  width: min(100%, 760px);
+}
+
+.course-layout {
+  --die-size: 64px;
+  --course-max-width: 100%;
+  --course-padding: 7px;
+  --course-frame-color: #e4e9e1;
+  --course-border-color: #cbd2c8;
+  --grid-line-color: #e5e9e1;
+  --rough-color: #a0aa9c;
+  --fairway-color: #c6d0c3;
+  --water-color: #8a99b8;
+  --sand-base-color: #ece6b0;
+  --sand-line-color: #d3ab9b;
+  --tree-background-color: var(--rough-color);
+  --pine-color: #365848;
+  --deciduous-color: #54745b;
+  --deciduous-trunk-color: #675a42;
+  --shade-medium-dark: #495a51;
+  --cell-dot-color: #859186;
+  --cell-dot-color-fairway: #718472;
+  --cell-dot-color-rough: #c6d0c3;
+  --cell-dot-color-sand: #9c863d;
+  display: grid;
+  width: min(100%, calc(50svh + 100px), 760px);
+  margin-inline: auto;
+  grid-template-columns: minmax(0, 1fr) 88px;
+  grid-template-rows: auto auto;
+  align-items: stretch;
+  column-gap: 12px;
+  row-gap: 2px;
+}
+
+.golf-game .golf-course-wrapper {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+.golf-game .golf-course-grid {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 26;
+  background: var(--rough-color);
+}
+
+.course-rail {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.terrain-key {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-top: 10px;
+}
+
+.terrain-key > span {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.1;
+}
+
+.terrain-key-swatch {
+  position: relative;
+  display: block;
+  flex: 0 0 13px;
+  width: 13px;
+  height: 13px;
+  box-sizing: border-box;
+  border: 1px solid #aeb8ac;
+  border-radius: 2px;
+}
+
+.terrain-key-swatch.terrain-sand {
+  background-image: repeating-linear-gradient(45deg, var(--sand-line-color) 0 2px, var(--sand-base-color) 2px 4px);
+}
+
+.terrain-key-swatch.terrain-tree_p b {
+  position: absolute;
+  inset: 2px;
+  background: var(--pine-color);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.terrain-key-swatch.terrain-slope_u b {
+  position: absolute;
+  inset: 2px;
+  background: var(--shade-medium-dark);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.terrain-key-swatch.terrain-tee b,
+.terrain-key-swatch.terrain-hole b {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: var(--tee-marker-color);
+  border: 1px solid var(--tee-marker-border-color);
+}
+
+.terrain-key-swatch.terrain-hole b {
+  background: var(--hole-marker-color);
+  border-color: var(--hole-marker-border-color);
+}
+
+.dice-control {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: auto;
+  padding-bottom: 0;
+}
+
+.dice-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.text-action {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.die-button {
+  display: grid;
+  flex: 0 0 var(--die-size);
+  width: var(--die-size);
+  height: var(--die-size);
+  place-items: center;
+  padding: 0;
+  border: 1px solid #bfc8bf;
+  border-radius: 8px;
+  background: #fffefa;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 31px;
+  font-weight: 500;
+  box-shadow: 0 3px 0 #cbd2c8;
+  cursor: pointer;
+}
+
+.die-button:disabled { cursor: default; }
+
+.die-button-empty {
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.course-scoreline {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px 8px;
+  padding: 4px 4px 2px;
+  letter-spacing: 0.04em;
+}
+
+.course-scoreline strong {
+  margin-right: 5px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.course-complete { color: #a34a34; }
+
+.next-hole-button {
+  display: block;
+  width: var(--die-size);
+  min-height: 30px;
+  padding-inline: 4px;
+  font-size: 11px;
+}
+
+.course-complete {
+  margin: 16px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.shot-overlay {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.shot-line {
+  fill: none;
+  stroke: #b34f36;
+  stroke-width: 0.09;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0.16 0.11;
+  opacity: 0.84;
+}
+
+.landing-marker {
+  fill: #b34f36;
+  stroke: #fffdf5;
+  stroke-width: 0.05;
+}
+
+.ball-marker {
+  fill: #fffdf5;
+  stroke: #b34f36;
+  stroke-width: 0.13;
+  vector-effect: non-scaling-stroke;
+}
+
+.move-target-layer {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  grid-template-rows: repeat(26, minmax(0, 1fr));
+  pointer-events: none;
+}
+
+.move-target-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.move-target {
+  display: grid;
+  width: min(78%, 24px);
+  min-width: 0;
+  aspect-ratio: 1;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #fffdf5;
+  border-radius: 50%;
+  background: #b34f36;
+  box-shadow: 0 0 0 2px #b34f3670;
+  color: white;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.move-target-putt {
+  opacity: 0;
+  transform: scale(0.75);
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.move-target-cell:hover .move-target-putt,
+.move-target-cell:focus-within .move-target-putt {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.move-target-hole {
+  background: var(--green);
+  box-shadow: 0 0 0 2px #2e5b4770;
+}
+
+.golf-game button:focus-visible {
+  outline: 2px solid #b34f36;
+  outline-offset: 2px;
+}
+
+@media (max-width: 865px) {
+  .golf-game { padding-inline: 16px; }
+}
+
+@media (max-width: 420px) {
+  .course-layout {
+    width: min(100%, calc(50svh + 84px));
+    grid-template-columns: minmax(0, 1fr) 76px;
+    gap: 8px;
+  }
+  .terrain-key { gap: 7px; }
+  .terrain-key > span { gap: 4px; font-size: 9px; }
+}

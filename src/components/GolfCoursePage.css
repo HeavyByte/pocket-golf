@@ -163,11 +163,11 @@
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
-.terrain-key-swatch.terrain-slope_u b {
+.terrain-key-swatch.terrain-slope_l b {
   position: absolute;
   inset: 2px;
   background: var(--shade-medium-dark);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
 }
 
 .terrain-key-swatch.terrain-tee b,

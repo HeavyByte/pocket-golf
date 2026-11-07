@@ -226,10 +226,7 @@ export function GolfCoursePage() {
                 <span><i className="terrain-key-swatch terrain-fairway" />Fairway</span>
                 <span><i className="terrain-key-swatch terrain-sand" />Sand</span>
                 <span><i className="terrain-key-swatch terrain-water" />Water</span>
-                <span><i className="terrain-key-swatch terrain-tree_p"><b /></i>Trees</span>
-                <span><i className="terrain-key-swatch terrain-tee" />Tee</span>
-                <span><i className="terrain-key-swatch terrain-hole" />Hole</span>
-                <span><i className="terrain-key-swatch terrain-slope_u"><b /></i>Slope</span>
+                <span><i className="terrain-key-swatch terrain-slope_l"><b /></i>Slope</span>
               </div>
               <div className="dice-control">
                 <div className="dice-actions">

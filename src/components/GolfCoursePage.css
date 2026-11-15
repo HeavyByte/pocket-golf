@@ -4,14 +4,22 @@
   --line: #d7dcd7;
   --paper: #f3f5ef;
   --green: #2e5b47;
-  min-height: 100vh;
-  padding: 10px clamp(16px, 4vw, 56px) 10px;
+  min-height: 100svh;
+  padding: 0 clamp(16px, 4vw, 56px);
   box-sizing: border-box;
   color: var(--ink);
   background-color: var(--paper);
   background-image: radial-gradient(#8b998c 0.55px, transparent 0.55px);
   background-size: 15px 15px;
   text-align: left;
+}
+
+.game-screen {
+  display: flex;
+  height: 100svh;
+  box-sizing: border-box;
+  flex-direction: column;
+  padding: 10px 0 0;
 }
 
 .game-header,
@@ -22,6 +30,7 @@
 
 .game-header {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -65,6 +74,9 @@
 
 .game-layout {
   display: grid;
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   padding-top: 8px;
@@ -72,9 +84,12 @@
 
 .course-section {
   width: min(100%, 760px);
+  height: 100%;
+  display: flex;
 }
 
 .course-layout {
+  container-type: inline-size;
   --die-size: 64px;
   --course-max-width: 100%;
   --course-padding: 7px;
@@ -95,14 +110,13 @@
   --cell-dot-color-fairway: #718472;
   --cell-dot-color-rough: #c6d0c3;
   --cell-dot-color-sand: #9c863d;
-  display: grid;
-  width: min(100%, calc(50svh + 100px), 760px);
+  width: min(100%, max(0px, calc(61.5svh - 100px)), 760px);
+  height: 100%;
   margin-inline: auto;
-  grid-template-columns: minmax(0, 1fr) 88px;
-  grid-template-rows: auto auto;
-  align-items: stretch;
-  column-gap: 12px;
-  row-gap: 2px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .golf-game .golf-course-wrapper {
@@ -118,22 +132,20 @@
   background: var(--rough-color);
 }
 
-.course-rail {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-}
-
 .terrain-key {
   display: flex;
-  flex-direction: column;
-  gap: 9px;
-  padding-top: 10px;
+  flex: 0 0 auto;
+  width: min(100%, 760px);
+  min-width: 0;
+  gap: 12px;
+  margin: 4px auto 10px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .terrain-key > span {
   display: flex;
-  min-width: 0;
+  flex: 0 0 auto;
   align-items: center;
   gap: 6px;
   color: var(--muted);
@@ -185,20 +197,21 @@
 }
 
 .dice-control {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  margin-top: auto;
-  padding-bottom: 0;
+  position: relative;
+  width: 100%;
+  height: var(--die-size);
+  margin-top: 4px;
 }
 
-.dice-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
+.die-action {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+.die-action-left { left: clamp(6px, 2cqw, 14px); }
+.die-action-right { right: clamp(6px, 2cqw, 14px); }
 
 .text-action {
   padding: 0;
@@ -206,16 +219,17 @@
   background: transparent;
   color: var(--green);
   font: inherit;
-  font-size: 11px;
+  font-size: clamp(8px, 2.8cqw, 11px);
   font-weight: 700;
   text-align: left;
+  white-space: nowrap;
   cursor: pointer;
 }
 
 .die-button {
   display: grid;
   flex: 0 0 var(--die-size);
-  width: var(--die-size);
+  width: 100%;
   height: var(--die-size);
   place-items: center;
   padding: 0;
@@ -237,38 +251,46 @@
   font-size: 18px;
 }
 
+.die-button-action {
+  font-family: inherit;
+  font-size: clamp(8px, 3cqw, 13px);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.die-button-next {
+  border-color: var(--green);
+  background: var(--green);
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+}
+
 .course-scoreline {
-  grid-column: 1;
-  grid-row: 2;
   display: flex;
   width: 100%;
   box-sizing: border-box;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: 5px 8px;
   padding: 4px 4px 2px;
+  font-size: clamp(6px, 2.8cqw, 11px);
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .course-scoreline strong {
-  margin-right: 5px;
+  margin-right: clamp(1px, 0.7cqw, 5px);
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 17px;
+  font-size: clamp(9px, 4.3cqw, 17px);
   font-weight: 500;
   letter-spacing: 0;
 }
 
 .course-complete { color: #a34a34; }
-
-.next-hole-button {
-  display: block;
-  width: var(--die-size);
-  min-height: 30px;
-  padding-inline: 4px;
-  font-size: 11px;
-}
 
 .course-complete {
   margin: 16px 0 0;
@@ -377,11 +399,8 @@
 }
 
 @media (max-width: 420px) {
-  .course-layout {
-    width: min(100%, calc(50svh + 84px));
-    grid-template-columns: minmax(0, 1fr) 76px;
+  .terrain-key {
     gap: 8px;
   }
-  .terrain-key { gap: 7px; }
   .terrain-key > span { gap: 4px; font-size: 9px; }
 }

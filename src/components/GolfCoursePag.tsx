@@ -196,72 +196,79 @@ export function GolfCoursePage() {
       return targets;
     }, new Map<string, MoveTarget>()).values(),
   );
+  const canUseMulligan = dieRoll !== null && mulligansUsed < 6;
+  const canUseFreeRoll = dieRoll !== null && freeTeeReroll && strokes === 0 && atTee;
+  const dieButtonLabel = finished
+    ? holeNumber < 18 ? "Next Hole" : "Complete"
+    : dieRoll ?? (strokes > 0 ? "Roll again" : "Roll");
+  const dieButtonAriaLabel = finished
+    ? holeNumber < 18 ? "Next hole" : "Course complete"
+    : dieRoll !== null ? `Die shows ${dieRoll}`
+      : strokes > 0 ? "Roll again" : "Roll the die";
 
   return (
     <main className="golf-game">
-      <header className="game-header">
-        <div>
-          <p className="eyebrow">PAPER GOLF / 18-HOLE COURSE</p>
-          <h1>Hole {holeNumber}</h1>
-        </div>
-        <button className="new-course-button" onClick={startNewCourse}>New course</button>
-      </header>
-
-      <div className="game-layout">
-        <section className="course-section" aria-label="Golf course">
-          <div className="course-layout">
-            <GolfCourseRenderer
-              course={course}
-              ball={ball}
-              shots={shots}
-              moveTargets={finished ? [] : moveTargets}
-              onSelectMove={(id) => {
-                const move = availableMoves.find((candidate) => candidate.id === id);
-                if (move) takeShot(move);
-              }}
-            />
-            <aside className="course-rail" aria-label="Terrain key and dice">
-              <div className="terrain-key" aria-label="Terrain key">
-                <span><i className="terrain-key-swatch terrain-rough" />Rough</span>
-                <span><i className="terrain-key-swatch terrain-fairway" />Fairway</span>
-                <span><i className="terrain-key-swatch terrain-sand" />Sand</span>
-                <span><i className="terrain-key-swatch terrain-water" />Water</span>
-                <span><i className="terrain-key-swatch terrain-slope_l"><b /></i>Slope</span>
-              </div>
-              <div className="dice-control">
-                <div className="dice-actions">
-                  {finished && holeNumber < 18 && (
-                    <button className="next-hole-button" onClick={startNextHole}>Next hole</button>
-                  )}
-                  {dieRoll !== null && freeTeeReroll && strokes === 0 && atTee && (
-                    <button className="text-action" onClick={() => rollDie(false, true)}>Free roll</button>
-                  )}
-                  {dieRoll !== null && mulligansUsed < 6 && (
-                    <button className="text-action" onClick={() => rollDie(true)}>Use mulligan</button>
-                  )}
-                </div>
-                <button
-                  className={`die-button${dieRoll === null ? " die-button-empty" : ""}`}
-                  onClick={() => { if (dieRoll === null && !finished) rollDie(); }}
-                  disabled={dieRoll !== null || finished}
-                  aria-label={dieRoll === null ? "Roll the die" : `Die shows ${dieRoll}`}
-                  title={dieRoll === null ? "Click to roll" : `Roll: ${dieRoll}`}
-                >
-                  {dieRoll ?? "Roll"}
-                </button>
-              </div>
-            </aside>
-            <div className="course-scoreline" aria-label={`Hole ${holeNumber}, ${mulligansUsed} of 6 mulligans used, ${strokes} of 6 strokes, ${totalStrokes} total strokes`}>
-              <span>Hole</span><strong>{holeNumber}</strong>
-              <span>Mulligan</span><strong>{mulligansUsed}/6</strong>
-              <span>Strokes:</span><strong>{strokes}/6</strong>
-              <span>Total:</span><strong>{totalStrokes}</strong>
-            </div>
+      <div className="game-screen">
+        <header className="game-header">
+          <div>
+            <p className="eyebrow">PAPER GOLF / 18-HOLE COURSE</p>
+            <h1>Hole {holeNumber}</h1>
           </div>
-          {finished && holeNumber === 18 && (
-            <p className="course-complete" aria-live="polite">18 holes complete · {totalStrokes} strokes</p>
-          )}
-        </section>
+          <button className="new-course-button" onClick={startNewCourse}>New course</button>
+        </header>
+
+        <div className="game-layout">
+          <section className="course-section" aria-label="Golf course">
+            <div className="course-layout">
+              <GolfCourseRenderer
+                course={course}
+                ball={ball}
+                shots={shots}
+                moveTargets={finished ? [] : moveTargets}
+                onSelectMove={(id) => {
+                  const move = availableMoves.find((candidate) => candidate.id === id);
+                  if (move) takeShot(move);
+                }}
+              />
+              <div className="dice-control">
+                <button
+                  className={`die-button${dieRoll === null ? " die-button-empty" : ""}${dieRoll === null && strokes > 0 ? " die-button-action" : ""}${finished && holeNumber < 18 ? " die-button-next" : ""}`}
+                  onClick={() => {
+                    if (finished && holeNumber < 18) startNextHole();
+                    else if (!finished && dieRoll === null) rollDie();
+                  }}
+                  disabled={dieRoll !== null || (finished && holeNumber === 18)}
+                  aria-label={dieButtonAriaLabel}
+                  title={finished && holeNumber < 18 ? "Start the next hole" : dieRoll === null ? strokes > 0 ? "Click to roll again" : "Click to roll" : `Roll: ${dieRoll}`}
+                >
+                  {dieButtonLabel}
+                </button>
+                {canUseFreeRoll && (
+                  <button className="text-action die-action die-action-left" onClick={() => rollDie(false, true)}>Free roll</button>
+                )}
+                {canUseMulligan && (
+                  <button className="text-action die-action die-action-right" onClick={() => rollDie(true)}>Use mulligan</button>
+                )}
+              </div>
+              <div className="course-scoreline" aria-label={`Hole ${holeNumber}, ${mulligansUsed} of 6 mulligans used, ${strokes} of 6 strokes, ${totalStrokes} total strokes`}>
+                <span>Hole</span><strong>{holeNumber}</strong>
+                <span>Mulligan</span><strong>{mulligansUsed}/6</strong>
+                <span>Strokes:</span><strong>{strokes}/6</strong>
+                <span>Total:</span><strong>{totalStrokes}</strong>
+              </div>
+            </div>
+            {finished && holeNumber === 18 && (
+              <p className="course-complete" aria-live="polite">18 holes complete · {totalStrokes} strokes</p>
+            )}
+          </section>
+        </div>
+      </div>
+      <div className="terrain-key" aria-label="Terrain key">
+        <span><i className="terrain-key-swatch terrain-rough" />Rough</span>
+        <span><i className="terrain-key-swatch terrain-fairway" />Fairway</span>
+        <span><i className="terrain-key-swatch terrain-sand" />Sand</span>
+        <span><i className="terrain-key-swatch terrain-water" />Water</span>
+        <span><i className="terrain-key-swatch terrain-slope_l"><b /></i>Slope</span>
       </div>
     </main>
   );

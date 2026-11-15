@@ -4,7 +4,9 @@
   --line: #d7dcd7;
   --paper: #f3f5ef;
   --green: #2e5b47;
+  min-height: 100vh;
   min-height: 100svh;
+  padding: 0 16px;
   padding: 0 clamp(16px, 4vw, 56px);
   box-sizing: border-box;
   color: var(--ink);
@@ -16,6 +18,7 @@
 
 .game-screen {
   display: flex;
+  height: 100vh;
   height: 100svh;
   box-sizing: border-box;
   flex-direction: column;
@@ -24,6 +27,8 @@
 
 .game-header,
 .game-layout {
+  width: 100%;
+  max-width: 1100px;
   width: min(100%, 1100px);
   margin-inline: auto;
 }
@@ -83,6 +88,8 @@
 }
 
 .course-section {
+  width: 100%;
+  max-width: 760px;
   width: min(100%, 760px);
   height: 100%;
   display: flex;
@@ -110,6 +117,8 @@
   --cell-dot-color-fairway: #718472;
   --cell-dot-color-rough: #c6d0c3;
   --cell-dot-color-sand: #9c863d;
+  width: calc(61.5vh - 100px);
+  max-width: 760px;
   width: min(100%, max(0px, calc(61.5svh - 100px)), 760px);
   height: 100%;
   margin-inline: auto;
@@ -127,14 +136,23 @@
 
 .golf-game .golf-course-grid {
   width: 100%;
-  height: auto;
+  height: calc(100vh - 185px);
   aspect-ratio: 16 / 26;
   background: var(--rough-color);
+}
+
+@supports (aspect-ratio: 16 / 26) {
+  .golf-game .golf-course-grid,
+  .golf-game .move-target {
+    height: auto;
+  }
 }
 
 .terrain-key {
   display: flex;
   flex: 0 0 auto;
+  width: 100%;
+  max-width: 760px;
   width: min(100%, 760px);
   min-width: 0;
   gap: 12px;
@@ -210,6 +228,8 @@
   transform: translateY(-50%);
 }
 
+.die-action-left { left: 14px; }
+.die-action-right { right: 14px; }
 .die-action-left { left: clamp(6px, 2cqw, 14px); }
 .die-action-right { right: clamp(6px, 2cqw, 14px); }
 
@@ -219,6 +239,7 @@
   background: transparent;
   color: var(--green);
   font: inherit;
+  font-size: 11px;
   font-size: clamp(8px, 2.8cqw, 11px);
   font-weight: 700;
   text-align: left;
@@ -253,6 +274,7 @@
 
 .die-button-action {
   font-family: inherit;
+  font-size: 13px;
   font-size: clamp(8px, 3cqw, 13px);
   font-weight: 700;
   white-space: nowrap;
@@ -276,15 +298,18 @@
   justify-content: space-between;
   gap: 5px 8px;
   padding: 4px 4px 2px;
+  font-size: 11px;
   font-size: clamp(6px, 2.8cqw, 11px);
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
 
 .course-scoreline strong {
+  margin-right: 5px;
   margin-right: clamp(1px, 0.7cqw, 5px);
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
   font-size: clamp(9px, 4.3cqw, 17px);
   font-weight: 500;
   letter-spacing: 0;
@@ -352,6 +377,8 @@
 
 .move-target {
   display: grid;
+  width: 16px;
+  height: 16px;
   width: min(78%, 24px);
   min-width: 0;
   aspect-ratio: 1;
